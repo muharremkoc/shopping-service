@@ -1,0 +1,39 @@
+<configuration>
+   <!-- <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <context />
+                <logLevel />
+                <loggerName />
+                <pattern>
+                    <pattern>
+                        {
+                        "app": "item-service"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName />
+                <message />
+                <logstashMarkers />
+                <stackTrace />
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+
+            <pattern>
+                    %cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) %yellow([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n
+                </pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="logstash"/>
+        <appender-ref ref="console"/>
+    </root>
+</configuration>
